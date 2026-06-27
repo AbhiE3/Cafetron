@@ -1,0 +1,385 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.detail-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app-topbar h1 {
+  margin: 0;
+  color: var(--primary);
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.detail-shell {
+  display: grid;
+  gap: 18px;
+  width: min(860px, 100%);
+  min-width: 0;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.hero-card,
+.section-card,
+.state-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.hero-card {
+  display: grid;
+  gap: 10px;
+  padding: 22px;
+  border-color: var(--primary-action);
+}
+
+.hero-card h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(30px, 7vw, 38px);
+  line-height: 1;
+}
+
+.hero-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.section-card {
+  padding: 20px;
+}
+
+.section-card h2 {
+  margin: 0 0 16px;
+  color: var(--text);
+  font-size: 24px;
+}
+
+.section-title-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.section-title-row h2 {
+  margin: 0;
+}
+
+.section-title-row .material-symbols-outlined {
+  color: var(--primary);
+}
+
+.detail-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.detail-list div {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  min-width: 0;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.detail-list div:last-child {
+  border-bottom: 0;
+}
+
+.detail-list dt {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.detail-list dd {
+  margin: 0;
+  color: var(--text);
+  font-weight: 900;
+  text-align: right;
+  min-width: 0;
+}
+
+.item-list {
+  display: grid;
+  gap: 14px;
+}
+
+.item-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  min-width: 0;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.item-card:last-child {
+  border-bottom: 0;
+}
+
+.item-card h3,
+.item-card p {
+  margin: 0;
+}
+
+.item-card h3 {
+  color: var(--text);
+  font-size: clamp(18px, 4.6vw, 21px);
+}
+
+.item-card p {
+  margin-top: 4px;
+  color: var(--muted);
+}
+
+.item-card strong {
+  color: var(--text);
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+.status-badge,
+.vendor-badge {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  max-width: 100%;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.vendor-badge {
+  margin-top: 8px;
+}
+
+.status-pending,
+.status-default,
+.vendor-preparing,
+.vendor-default {
+  background: var(--warning-soft);
+  color: var(--primary);
+}
+
+.status-completed,
+.vendor-ready,
+.vendor-completed {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.status-cancelled,
+.vendor-cancelled {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.qr-token-card code {
+  display: block;
+  padding: 14px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: var(--surface-soft);
+  color: var(--text);
+  line-height: 1.6;
+  word-break: break-all;
+}
+
+.timeout-btn {
+  min-height: 54px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--primary-action);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(249, 115, 22, 0.24);
+}
+
+.timeout-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.timeout-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.timeout-window-message {
+  margin: -8px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.state-card {
+  display: grid;
+  gap: 12px;
+  place-items: center;
+  min-height: 240px;
+}
+
+.spinner {
+  width: 44px;
+  height: 44px;
+  border: 4px solid var(--line);
+  border-top-color: var(--primary-action);
+  border-radius: 50%;
+  animation: spin 800ms linear infinite;
+}
+
+.alert {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--danger);
+  border-radius: var(--radius);
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-weight: 800;
+}
+
+.qr-section {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+}
+
+.qr-section-disabled {
+  opacity: 0.78;
+}
+
+.qr-section h2 {
+  margin: 0 0 16px;
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.qr-content {
+  display: grid;
+  gap: 16px;
+  place-items: center;
+  margin-bottom: 20px;
+}
+
+.qr-description {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.qr-disabled-message {
+  display: grid;
+  gap: 10px;
+  place-items: center;
+  min-height: 130px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.qr-disabled-message .material-symbols-outlined {
+  color: var(--danger);
+  font-size: 44px;
+}
+
+.qr-disabled-message p {
+  margin: 0;
+  font-weight: 800;
+}
+
+.qr-token {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.qr-view-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  font-size: 16px;
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(249, 115, 22, 0.2);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.qr-view-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(249, 115, 22, 0.28);
+}
+
+.qr-view-btn-disabled,
+.qr-view-btn-disabled:hover {
+  transform: none;
+  background: var(--surface-soft);
+  color: var(--muted);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.qr-view-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+@media (max-width: 620px) {
+  .detail-shell {
+    padding: 22px 14px 96px;
+  }
+
+  .app-topbar h1 {
+    font-size: 20px;
+  }
+
+  .hero-card,
+  .section-card {
+    padding: 18px;
+  }
+
+  .detail-list div,
+  .item-card {
+    display: grid;
+    gap: 6px;
+  }
+
+  .detail-list dd {
+    text-align: left;
+  }
+
+  .item-card strong {
+    justify-self: start;
+  }
+}

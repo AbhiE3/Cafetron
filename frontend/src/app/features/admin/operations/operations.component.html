@@ -1,0 +1,140 @@
+<main id="admin-operations-page" class="ops-page">
+  <header id="admin-operations-header" class="page-header">
+    <div>
+      <p class="eyebrow">Admin</p>
+      <h1 class="page-title">Operations</h1>
+      <p class="page-sub">Control the ordering window and daily cutoff time.</p>
+    </div>
+    <div class="header-actions">
+      <a id="admin-operations-manage-vendors-link" class="header-link" routerLink="/admin/vendors">Manage Vendors</a>
+      <div id="admin-operations-live-badge" class="live-badge">
+        <span class="live-dot"></span>
+        Live
+      </div>
+    </div>
+    <svg viewBox="0 0 360 160" aria-hidden="true">
+      <path d="M48 116h264M88 116V76h184v40M126 76V48h108v28" />
+      <path d="M136 116c10-24 29-36 56-36s48 12 62 36" />
+    </svg>
+  </header>
+
+  <section
+    id="admin-operations-status-banner"
+    class="status-banner"
+    [class.banner-open]="orderingAllowed"
+    [class.banner-closed]="!orderingAllowed"
+    *ngIf="status"
+  >
+    <span class="banner-icon material-symbols-outlined">{{ orderingAllowed ? 'check_circle' : 'block' }}</span>
+    <div class="banner-text">
+      <strong>
+        {{
+          orderingAllowed
+            ? 'Ordering is open - employees can place orders'
+            : !status!.windowOpen
+              ? 'Ordering is closed manually'
+              : 'Ordering is closed - cutoff time has passed'
+        }}
+      </strong>
+      <span>
+        Cutoff: <b id="admin-operations-banner-cutoff">{{ to12hr(status!.cutoffTime) }}</b>
+        <span id="admin-operations-banner-cutoff-passed" class="tag-passed" *ngIf="status!.cutoffPassed">passed</span>
+        <span id="admin-operations-banner-cutoff-ok" class="tag-ok" *ngIf="!status!.cutoffPassed">not reached</span>
+      </span>
+    </div>
+  </section>
+
+  <section id="admin-operations-grid" class="ops-grid">
+    <article id="admin-operations-window-card" class="ops-card">
+      <div class="ops-card-top">
+        <span class="ops-icon material-symbols-outlined">toggle_on</span>
+        <div>
+          <h2 class="ops-card-title">Ordering Window</h2>
+          <p class="ops-card-sub">Manually open or close ordering for the day.</p>
+        </div>
+      </div>
+
+      <div id="admin-operations-window-toggle-row" class="toggle-row" *ngIf="status">
+        <span id="admin-operations-window-state" class="toggle-label" [class.label-open]="status!.windowOpen">
+          {{ status!.windowOpen ? 'Open' : 'Closed' }}
+        </span>
+        <button
+          id="admin-operations-window-toggle-btn"
+          class="toggle-btn"
+          [class.toggle-on]="status!.windowOpen"
+          (click)="toggleWindow()"
+          [disabled]="toggling"
+          type="button"
+          aria-label="Toggle ordering window"
+        >
+          <span class="toggle-thumb"></span>
+        </button>
+      </div>
+
+      <p class="ops-note">
+        Closing the window blocks orders immediately. Reopening it allows orders again until the cutoff is reached.
+      </p>
+    </article>
+
+    <article id="admin-operations-cutoff-card" class="ops-card">
+      <div class="ops-card-top">
+        <span class="ops-icon material-symbols-outlined">schedule</span>
+        <div>
+          <h2 class="ops-card-title">Daily Cutoff Time</h2>
+          <p class="ops-card-sub">Orders are automatically blocked after this time.</p>
+        </div>
+      </div>
+
+      <div id="admin-operations-cutoff-form" class="cutoff-form">
+        <label class="input-label" for="admin-operations-cutoff-input">Set cutoff time</label>
+        <div class="cutoff-row">
+          <input id="admin-operations-cutoff-input" type="time" [(ngModel)]="newCutoffTime" class="time-input" />
+          <button id="admin-operations-cutoff-save-btn" class="save-btn" (click)="saveCutoff()" [disabled]="!newCutoffTime || saving" type="button">
+            {{ saving ? 'Saving...' : 'Update' }}
+          </button>
+        </div>
+        <p class="current-val" *ngIf="status">
+          Current cutoff: <strong id="admin-operations-current-cutoff">{{ to12hr(status!.cutoffTime) }}</strong>
+        </p>
+        <p class="reset-note">
+          Cutoff resets to <strong>03:00 PM</strong> every midnight. Changes here apply for today only.
+        </p>
+      </div>
+    </article>
+  </section>
+
+  <section id="admin-operations-status-table-card" class="status-table-card" *ngIf="status">
+    <h2 class="chart-title">System Status</h2>
+    <div class="status-rows">
+      <div class="status-row">
+        <span class="status-key">Window toggle</span>
+        <span id="admin-operations-table-window-state" class="status-val" [class.val-green]="status!.windowOpen" [class.val-red]="!status!.windowOpen">
+          {{ status!.windowOpen ? 'Open' : 'Closed' }}
+        </span>
+      </div>
+
+      <div class="status-row">
+        <span class="status-key">Cutoff time</span>
+        <span id="admin-operations-table-cutoff-time" class="status-val">{{ to12hr(status!.cutoffTime) }}</span>
+      </div>
+
+      <div class="status-row">
+        <span class="status-key">Cutoff status</span>
+        <span id="admin-operations-table-cutoff-status" class="status-val" [class.val-red]="status!.cutoffPassed" [class.val-green]="!status!.cutoffPassed">
+          {{ status!.cutoffPassed ? 'Passed' : 'Not reached' }}
+        </span>
+      </div>
+
+      <div class="status-row">
+        <span class="status-key">Ordering allowed</span>
+        <span id="admin-operations-table-ordering-allowed" class="status-val" [class.val-green]="orderingAllowed" [class.val-red]="!orderingAllowed">
+          {{ orderingAllowed ? 'Yes' : 'No' }}
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <div id="admin-operations-toast" class="toast" [class.toast-visible]="!!toast" [class.toast-error]="toastType === 'error'">
+    {{ toast }}
+  </div>
+</main>

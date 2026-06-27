@@ -1,0 +1,116 @@
+<main id="vendor-orders-page" class="vendor-orders-page">
+  <header class="app-topbar">
+    <div class="topbar-left">
+      <a id="vendor-orders-back-to-menu-link" class="icon-btn" routerLink="/menu" aria-label="Back to menu">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </a>
+      <h1>Vendor Orders</h1>
+    </div>
+    <div class="topbar-actions">
+      <a id="vendor-orders-manage-menu-link" class="profile-link" routerLink="/menu/manage">
+        <span class="material-symbols-outlined">restaurant_menu</span>
+        Manage Menu
+      </a>
+      <a id="vendor-orders-profile-link" class="profile-link" routerLink="/profile">
+        <span class="material-symbols-outlined">account_circle</span>
+        Profile
+      </a>
+    </div>
+  </header>
+
+  <section id="vendor-orders-shell" class="vendor-orders-shell">
+    <div class="page-title">
+      <p class="eyebrow">Vendor queue</p>
+      <h2>Accept or decline incoming orders</h2>
+      <p>Only orders for your vendor account are shown here. Use Manage Menu to add or update items.</p>
+    </div>
+
+    <div id="vendor-orders-success-notice" *ngIf="toast && !errorMessage" class="notice success">
+      <span class="material-symbols-outlined">check_circle</span>
+      <span>{{ toast }}</span>
+    </div>
+
+    <div id="vendor-orders-error-notice" *ngIf="errorMessage" class="notice error">
+      <span class="material-symbols-outlined">error</span>
+      <span>{{ errorMessage }}</span>
+    </div>
+
+    <section id="vendor-orders-loading-state" *ngIf="isLoading" class="state-card">
+      <div class="spinner"></div>
+      <p>Loading vendor orders...</p>
+    </section>
+
+    <section id="vendor-orders-empty-state" *ngIf="!isLoading && orders.length === 0" class="state-card">
+      <span class="material-symbols-outlined">room_service</span>
+      <h3>No vendor orders yet</h3>
+      <p>New order items will appear here after customers place orders.</p>
+    </section>
+
+    <section id="vendor-orders-grid" *ngIf="!isLoading && orders.length > 0" class="orders-grid">
+      <article *ngFor="let order of orders; let i = index" id="vendor-order-card-{{ i + 1 }}" class="vendor-order-card">
+        <div class="order-card-top">
+          <div>
+            <span id="vendor-order-id-{{ i + 1 }}" class="order-id">Order #{{ order.orderId }}</span>
+            <h3 id="vendor-order-item-name-{{ i + 1 }}">{{ order.itemName }}</h3>
+            <p id="vendor-order-pickup-slot-{{ i + 1 }}">Pickup {{ order.pickupSlot || 'slot pending' }}</p>
+          </div>
+          <span id="vendor-order-status-{{ i + 1 }}" class="status-badge" [ngClass]="getStatusClass(getDisplayStatus(order))">
+            {{ getDisplayStatus(order) }}
+          </span>
+        </div>
+
+        <div class="order-meta">
+          <div>
+            <span>Qty</span>
+            <strong id="vendor-order-quantity-{{ i + 1 }}">{{ order.quantity }}</strong>
+          </div>
+          <div>
+            <span>Unit</span>
+            <strong>₹{{ order.unitPrice | number: '1.2-2' }}</strong>
+          </div>
+          <div>
+            <span>Total</span>
+            <strong>₹{{ order.lineTotal | number: '1.2-2' }}</strong>
+          </div>
+        </div>
+
+        <div id="vendor-order-decline-reason-group-{{ i + 1 }}" class="decline-reason" *ngIf="isPending(order)">
+          <label [for]="'vendor-order-decline-reason-input-' + (i + 1)">Decline reason</label>
+          <input
+            [id]="'vendor-order-decline-reason-input-' + (i + 1)"
+            type="text"
+            [(ngModel)]="declineReasons[order.vendorOrderStatusId]"
+            placeholder="Optional reason"
+          />
+        </div>
+
+        <p id="vendor-order-declined-reason-{{ i + 1 }}" *ngIf="order.declinedReason" class="reason-text">
+          {{ order.declinedReason }}
+        </p>
+
+        <div id="vendor-order-actions-{{ i + 1 }}" class="order-actions" *ngIf="isPending(order)">
+          <button
+            id="vendor-order-accept-btn-{{ i + 1 }}"
+            class="accept-btn"
+            type="button"
+            (click)="accept(order)"
+            [disabled]="actioningId === order.vendorOrderStatusId"
+          >
+            <span class="material-symbols-outlined">check</span>
+            Accept
+          </button>
+          <button
+            id="vendor-order-decline-btn-{{ i + 1 }}"
+            class="decline-btn"
+            type="button"
+            (click)="decline(order)"
+            [disabled]="actioningId === order.vendorOrderStatusId"
+          >
+            <span class="material-symbols-outlined">close</span>
+            Decline
+          </button>
+        </div>
+      </article>
+    </section>
+  </section>
+</main>

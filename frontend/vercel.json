@@ -1,0 +1,20 @@
+{
+  "buildCommand": "npm run build:vercel",
+  "outputDirectory": "dist/cafetron-frontend/browser",
+  "installCommand": "npm ci",
+  "framework": "angular",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://cafetron-backend-3aof.onrender.com/api/$1"
+    },
+    {
+      "source": "/ws/(.*)",
+      "destination": "https://cafetron-backend-3aof.onrender.com/ws/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

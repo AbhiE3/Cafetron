@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: cafetron-backend
+
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/cafetron?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: root
+    password: 938145
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      # Use 'update' in dev only. Switch to 'validate' + Flyway/Liquibase for real deployments.
+      ddl-auto: ${DDL_AUTO:update}
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: ${SHOW_SQL:true}
+
+server:
+  address: 0.0.0.0
+  port: ${PORT:8081}
+
+# --- Application-specific config ---
+cafetron:
+  cors:
+    allowed-origin-patterns: ${CORS_ALLOWED_ORIGIN_PATTERNS:http://localhost:4200,http://127.0.0.1:4200,https://cafetron-frontend-iy4p.vercel.app}
+  dev-seed:
+    enabled: ${DEV_SEED_ENABLED:false}
+  jwt:
+    # Replace with a long random base64 secret in a real env (env var, not committed).
+    secret: ${JWT_SECRET:Y2hhbmdlLW1lLXRoaXMtaXMtYS1kZXYtb25seS1zZWNyZXQtMTIzNDU2Nzg=}
+    expiration-ms: 86400000        # 24h
+  vendor:
+    response-timeout-minutes: ${VENDOR_RESPONSE_TIMEOUT_MINUTES:10}
+    timeout-scan-ms: ${VENDOR_TIMEOUT_SCAN_MS:60000}
+  order:
+    cancel-window-minutes: 5       # Module 3
+    daily-cutoff: "15:00"          # Module 6 (simple LocalTime check, no Quartz)

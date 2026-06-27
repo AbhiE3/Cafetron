@@ -33,6 +33,7 @@ public class CorsConfig {
     private List<String> parseAllowedOriginPatterns() {
         return Arrays.stream(allowedOriginPatterns.split(","))
                 .map(String::trim)
+                .map(origin -> origin.replaceAll("/+$", ""))
                 .filter(origin -> !origin.isBlank())
                 .toList();
     }

@@ -65,6 +65,29 @@ Run by TestNG group:
 .\mvnw.cmd -o "-Dmaven.repo.local=$env:USERPROFILE\.m2\repository" test -Dgroups=smoke
 ```
 
+## First UI Smoke Test
+
+The first Cafetron UI test is:
+
+```text
+src/test/java/tests/smoke/LoginPageSmokeTest.java
+```
+
+It opens `/login` and verifies the login page is visible.
+
+Before running it, start the Angular frontend from the main project:
+
+```powershell
+cd ..\frontend
+npm start
+```
+
+Then run the smoke suite from `cafetron-automation`:
+
+```powershell
+.\mvnw.cmd -o "-Dmaven.repo.local=$env:USERPROFILE\.m2\repository" test -DsuiteXmlFile=src/test/resources/suites/smoke.xml
+```
+
 ## Notes
 
 - No Cafetron business test cases are included yet.

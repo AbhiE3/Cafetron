@@ -1,0 +1,17 @@
+package pages;
+
+import org.openqa.selenium.WebDriver;
+
+public class CartPage extends BasePage {
+
+    public CartPage(WebDriver driver) {
+        super(driver);
+    }
+
+    public CartPage open() {
+        openPath("/cart");
+        urlContains("/cart");
+        return this;
+    }
+}
+

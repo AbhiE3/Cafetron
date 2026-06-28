@@ -40,5 +40,8 @@ public class LoginPage extends BasePage {
     public String errorMessage() {
         return visible(ERROR_MESSAGE).getText();
     }
-}
 
+    public boolean hasErrorMessage() {
+        return isVisible(ERROR_MESSAGE);
+    }
+}

@@ -15,6 +15,9 @@ public class RegisterPage extends BasePage {
     private static final By ROLE_SELECT = By.id("register-role-select");
     private static final By SUBMIT_BUTTON = By.id("register-submit-btn");
     private static final By LOGIN_LINK = By.id("register-login-link");
+    private static final By ROLE_ADMIN_OPTION = By.id("register-role-admin-option");
+    private static final By ERROR_MESSAGE = By.id("register-error-message");
+    private static final By SUCCESS_MESSAGE = By.id("register-success-message");
 
     public RegisterPage(WebDriver driver) {
         super(driver);
@@ -44,5 +47,16 @@ public class RegisterPage extends BasePage {
     public boolean isLoaded() {
         return visible(REGISTER_PAGE).isDisplayed();
     }
-}
 
+    public boolean hasAdminRoleOption() {
+        return isPresent(ROLE_ADMIN_OPTION);
+    }
+
+    public boolean hasErrorMessage() {
+        return isVisible(ERROR_MESSAGE);
+    }
+
+    public boolean hasSuccessMessage() {
+        return isVisible(SUCCESS_MESSAGE);
+    }
+}

@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.ConfigReader;
 
 import java.time.Duration;
+import java.util.List;
 
 public abstract class BasePage {
 
@@ -24,6 +25,10 @@ public abstract class BasePage {
 
     protected WebElement visible(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    protected List<WebElement> visibleElements(By locator) {
+        return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
     }
 
     protected WebElement clickable(By locator) {
@@ -44,10 +49,41 @@ public abstract class BasePage {
         return wait.until(ExpectedConditions.urlContains(value));
     }
 
+    protected boolean isVisible(By locator) {
+        try {
+            return visible(locator).isDisplayed();
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
+
+    protected boolean isPresent(By locator) {
+        return !driver.findElements(locator).isEmpty();
+    }
+
+    protected int count(By locator) {
+        return driver.findElements(locator).size();
+    }
+
+    protected String text(By locator) {
+        return visible(locator).getText();
+    }
+
+    protected String attribute(By locator, String attributeName) {
+        return visible(locator).getAttribute(attributeName);
+    }
+
+    protected WebElement firstVisible(By locator) {
+        return visibleElements(locator).get(0);
+    }
+
+    protected void clickFirst(By locator) {
+        firstVisible(locator).click();
+    }
+
     protected void openPath(String path) {
         String baseUrl = ConfigReader.get("baseUrl", "http://localhost:4200").replaceAll("/+$", "");
         String normalizedPath = path.startsWith("/") ? path : "/" + path;
         driver.get(baseUrl + normalizedPath);
     }
 }
-

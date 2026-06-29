@@ -5,12 +5,12 @@ spring:
   datasource:
     url: ${DB_URL:jdbc:mysql://localhost:3306/cafetron?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
     username: root
-    password: 938145
+    password: abhiram753@
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       # Use 'update' in dev only. Switch to 'validate' + Flyway/Liquibase for real deployments.
-      ddl-auto: ${DDL_AUTO:update}
+      ddl-auto: ${DDL_AUTO:create}
     properties:
       hibernate:
         format_sql: true
